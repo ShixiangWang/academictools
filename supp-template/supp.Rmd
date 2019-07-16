@@ -1,0 +1,133 @@
+---
+title: "Supplement for: This is your paper title"
+author: "author1, author2, author 3"
+output: 
+ pdf_document:
+  toc: true
+  fig_caption: yes
+header-includes:
+   - \usepackage[labelfont=bf,labelsep=colon]{caption}
+   - \usepackage[section]{placeins}
+---
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\captionsetup{width=0.75\linewidth}
+---
+
+
+```{r global_opts, include=FALSE}
+knitr::opts_chunk$set(tidy=TRUE, 
+                      cache=FALSE,
+                      echo=FALSE,
+                      warning=FALSE,
+                      message=FALSE,
+                      dpi = 300,
+                      comment="#>",
+                      eval = TRUE, 
+                      fig.pos = "h")
+# Hold the figure position 
+knitr::knit_hooks$set(plot = function(x, options)  {
+  knitr::hook_plot_tex(x, options)
+})
+```
+
+\pagebreak
+
+# How to use this template?
+
+This is just a `Rmarkdown` document, so you can refer to the [Rmarkdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf) 
+for `Rmarkdown` grammar and refer to the [LaTeX cheatsheet](https://www.nyu.edu/projects/beber/files/Chang_LaTeX_sheet.pdf) for `LaTeX` grammar.
+
+Add a `\pagebreak` line before starting a new section.
+
+There is something else you need to know: generally, we will include many figures and tables
+in supplementary file, so we need pay attention to describe figure/table captions.
+
+The following shows how to show figures, tables and their captions. 
+Please read Rmd file to learn how to use them.
+
+
+```{r, fig.cap="Simple point plots using ggplot2. \\newline{}A) mpg vs. wt; B) mpg vs. wt colored by cyl.", out.width='.49\\linewidth', fig.show='hold',fig.align='center'}
+library(ggplot2)
+p <- ggplot(mtcars, aes(wt, mpg))
+p + geom_point() + labs(tag = "A")
+p + geom_point(aes(colour = factor(cyl))) + labs(tag = "B")
+```
+
+
+```{r, fig.cap="Simple point plots using ggplot2. A) mpg vs. wt; B) mpg vs. wt colored by cyl.", out.width='49%', fig.show='hold'}
+library(ggplot2)
+p <- ggplot(mtcars, aes(wt, mpg))
+p + geom_point() + labs(tag = "A")
+p + geom_point(aes(colour = factor(cyl))) + labs(tag = "B")
+```
+
+When you have external figures, you can use markdown grammar, `knitr::include_graphics()` or
+`cowplot::draw_image()` to include them.
+
+```
+![](https://sebastiansauer.github.io/images/2017-10-12/img1.png){ width=30% }
+![](https://sebastiansauer.github.io/images/2017-10-12/img2.png){ width=40% } 
+```
+
+> These two are web figrues, it will cause error when compile.
+
+**cowplot** package is highly recommended and has many figures to process figures used
+in academic field.
+
+```{r, out.width="49%", fig.cap="Inlcude figures from web or local machine", fig.show="hold"}
+cowplot::ggdraw() +
+  cowplot::draw_image("https://sebastiansauer.github.io/images/2017-10-12/img1.png")
+
+cowplot::ggdraw() +
+  cowplot::draw_image("https://sebastiansauer.github.io/images/2017-10-12/img2.png")
+```
+
+
+
+\pagebreak
+
+For tables, here we use examples from **rmarkdown** cheatsheet. Three options from three packages 
+are available. The first one is highly recommended and the third is used to report variable/model summary.
+
+```{r}
+knitr::kable(head(mtcars), caption = "Table with kable")
+```
+
+```{r, results="asis"}
+print(xtable::xtable(head(mtcars), caption = "Table with xtable",
+                     type = "latex"))
+```
+
+
+\pagebreak
+
+```{r, results="asis"}
+stargazer::stargazer(head(mtcars), type="latex", header = F,title="Table with stargazer")
+```
+
+
+Lastly, we talk about how to change font size.
+
+* Use `\tiny Hello` to get \tiny Hello \normalsize
+* Use `\small Hello` to get \small Hello \normalsize
+* Use `\normalsize Hello` to get \normalsize Hello \normalsize
+* Use `\large Hello` to get \large Hello \normalsize
+* Use `\huge Hello` to get \huge Hello \normalsize
+
+\pagebreak
+
+
+# Section 2: xxx
+
+\pagebreak
+
+# Section 3: xxx
+
+\pagebreak
+
+# R session info
+
+```{r r_session_info}
+devtools::session_info()
+```
